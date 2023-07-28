@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ag-cell.ag-cell-not-inline-editing.ag-cell-normal-height.ag-cell-value,
+.ag-header-cell-text {
+  display: flex !important;
+  align-items: center !important;
+  font-size: 20px;
+}
+
+.ag-header-cell.ag-header-cell-sortable.ag-focus-managed,
+.ag-header-cell.ag-focus-managed {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
