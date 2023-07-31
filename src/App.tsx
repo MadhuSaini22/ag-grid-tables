@@ -1,11 +1,11 @@
 import * as React from "react";
 import "./App.css";
-import Table from "./components/Table";
+import PaginationComponent from "./components/Pagination";
 
 function App() {
   return (
     <div style={{ width: "100vw" }}>
-      <Table />
+      <PaginationComponent />
     </div>
   );
 }

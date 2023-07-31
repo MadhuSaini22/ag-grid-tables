@@ -6,7 +6,7 @@
 .ag-header-cell-text {
   display: flex !important;
   align-items: center !important;
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .ag-header-cell.ag-header-cell-sortable.ag-focus-managed,
