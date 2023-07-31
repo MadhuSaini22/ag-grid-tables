@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 const inputFormateDate = (inputDate: any) => inputDate?.split("-").reverse().join("-");
 
 const DatePicker = forwardRef((props: any, ref) => {
@@ -25,7 +25,7 @@ const DatePicker = forwardRef((props: any, ref) => {
   // }, []);
 
   return (
-    <div className="absolute">
+    <div className="">
       <label>
         <input
           type="date"
@@ -33,7 +33,7 @@ const DatePicker = forwardRef((props: any, ref) => {
           value={selectedDate}
           onChange={handleInputChange}
           placeholder="Enter your date here"
-          className="w-[148px] h-9 text-base px-5 outline-none relative shadow-md"
+          className="w-[148px] h-9 text-base px-5 outline-none shadow-md"
         />
       </label>
     </div>
