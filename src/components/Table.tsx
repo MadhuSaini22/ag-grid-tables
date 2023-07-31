@@ -85,10 +85,27 @@ const columnDefs: any = [
   },
 ];
 
-const fetchData = async () => {
+
+
+const fetchData = async (currentPage,pageSize) => {
+  const newUrl =currentPage&& pageSize?`http://localhost:3000/data?_page=${currentPage}&_limit=${pageSize}`:"http://localhost:3000/data";
+ console.log({newUrl})
+  try {
+    const response = await fetch(newUrl);
+    const data = await response.json();
+    console.log({data})
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Error("Failed to fetch data");
+  }
+};
+
+const fetchInitialData = async () => {
   try {
     const response = await fetch("http://localhost:3000/data");
     const data = await response.json();
+    console.log({data},"-------------")
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -102,15 +119,18 @@ const ImageCellRenderer: React.FC<{ value: string }> = ({ value }) => {
 
 const Table: React.FC = () => {
   const [rowData, setRowData] = useState<User[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const gridRef = useRef(null);
-  useEffect(() => {
-    fetchData()
-      .then((data) => setRowData(data))
-      .catch((error) => {
-        console.log({ error });
-        // Handle error if needed and show an appropriate message to the user
-      });
-  }, []);
+  // useEffect(() => {
+  //   console.log("first")
+  //   fetchData(currentPage,pageSize)
+  //     .then((data) => setRowData(data))
+  //     .catch((error) => {
+  //       console.log({ error });
+  //       // Handle error if needed and show an appropriate message to the user
+  //     });
+  // }, [currentPage,pageSize]);
 
   const onCellEditingStopped = (params: any) => {
     const { data, column, newValue } = params;
@@ -132,7 +152,7 @@ const Table: React.FC = () => {
           return response.json();
         })
         .then(() => {
-          fetchData().then((data) => setRowData(data)); // After successful PUT request, fetch the updated data again with a GET request
+          fetchData(currentPage,pageSize).then((data) => setRowData(data)); // After successful PUT request, fetch the updated data again with a GET request
         })
         .catch((error) => {
           console.error("Error updating user:", error);
@@ -155,6 +175,21 @@ const Table: React.FC = () => {
     gridRef.current!.api.paginationSetPageSize(Number(value));
   }, []);
 
+
+  const onPaginationChangedHandler = useCallback((event) => {
+    const newPage = event.api.paginationGetCurrentPage() + 1;
+    const newPageSize = event.api.paginationGetPageSize();
+
+    setCurrentPage(newPage)
+    setPageSize(newPageSize)
+    console.log({newPage,newPageSize})
+    // if (newPage !== currentPage || newPageSize !== pageSize) {
+    //   setCurrentPage(newPage);
+    //   setPageSize(newPageSize);
+    // }
+  }, [currentPage, pageSize]);
+
+console.log({currentPage,pageSize})
   return (
     <div>
       <div className="example-header">
@@ -175,10 +210,11 @@ const Table: React.FC = () => {
           pagination={true}
           paginationPageSize={10}
           paginationNumberFormatter={paginationNumberFormatter}
-          onGridReady={fetchData}
+          onGridReady={fetchInitialData}
           onFirstDataRendered={onFirstDataRendered}
           rowHeight={75}
           components={{ imageCellRenderer: ImageCellRenderer }}
+          onPaginationChanged={onPaginationChangedHandler}
         />
       </div>
     </div>
