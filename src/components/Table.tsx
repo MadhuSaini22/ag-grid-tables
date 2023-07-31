@@ -7,6 +7,7 @@ import DateRef from "./generic/DateRef";
 import CustomTooltip from "./generic/CustomTooltip";
 import { ColDef } from "ag-grid-community";
 import DatePicker from "./generic/DatePicker";
+import Dropdown from "./generic/Dropdown";
 
 const categoryEditorSelector = (params: any) => {
   if (params.data) {
@@ -34,6 +35,16 @@ const dateEditorSelector = (params: any) => {
   if (params.data) {
     return {
       component: DatePicker,
+      popup: true,
+      popupPosition: "under",
+    };
+  }
+  return undefined;
+};
+const dropdownSelector = (params: any) => {
+  if (params.data) {
+    return {
+      component: Dropdown,
       popup: true,
       popupPosition: "under",
     };
@@ -121,11 +132,7 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
       filter: true,
       editable: true,
       width: 140,
-      cellEditor: "agSelectCellEditor",
-      cellEditorPopup: true,
-      cellEditorParams: {
-        values: ["Existing", "All", "New"],
-      },
+      cellEditorSelector: dropdownSelector,
     },
     {
       headerName: "Discount Type",
@@ -134,11 +141,7 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
       filter: true,
       width: 180,
       editable: true,
-      cellEditor: "agSelectCellEditor",
-      cellEditorPopup: true,
-      cellEditorParams: {
-        values: ["Discount", "Cashback"],
-      },
+      cellEditorSelector: dropdownSelector,
     },
     {
       headerName: "Min Purchase Amt",

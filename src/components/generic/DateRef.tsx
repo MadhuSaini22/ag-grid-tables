@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 
@@ -43,7 +43,15 @@ const DateTimePicker = forwardRef((props, ref) => {
     getValue: () => formatDate(selectedDateTime),
   }));
 
-  return <Datetime value={selectedDateTime} onChange={handleDateTimeChange} />;
+  useEffect(() => {
+    // When the component mounts, focus the DateTime component or open the calendar
+    const dateInput: any = document?.querySelector(".form-control");
+    if (dateInput) {
+      dateInput.click();
+    }
+  }, []);
+
+  return <Datetime value={selectedDateTime} onChange={handleDateTimeChange} className="w-52" />;
 });
 
 export default DateTimePicker;

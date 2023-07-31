@@ -15,3 +15,11 @@
   justify-content: center !important;
   align-items: center !important;
 }
+
+.form-control {
+  width: 192px;
+  height: 30px;
+  font-size: 17px;
+  outline: none;
+  padding: 0 10px;
+}

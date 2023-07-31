@@ -97,38 +97,3 @@ const PaginationButton = ({ icon: Icon, onClick }: any) => (
     <Icon className="h-5 w-5" />
   </button>
 );
-
-{
-  [
-    {
-      id: 1,
-      offerTitle: "Offer 1",
-      offerDescription:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      couponCode: "COUPON",
-      expireDate: "07/11/2023, 12:00 AM",
-      offerPageRedirectLink: "https://www.google.com",
-      discount: "Upto 100% off",
-      applicableOn: "All Products",
-      notApplicableOn: "Apparel",
-      userType: "Existing",
-      DiscountType: "Discount",
-      minimumPurchaseAmount: "1000",
-      paymentMode: "Cash",
-      maximumDiscount: 1000,
-      extraTerms: "only app",
-      categories: "Strawberry, Banana",
-      tags: "ShoppingSale",
-      brands: "Leno, Apple",
-      noOfBrands: 2,
-      expiryDate: "01-08-2023",
-      startDate: "01-08-2023",
-      offerPageLink: "https://www.google.com",
-      plainLink: "https://www.google.com",
-      fragmentTemplate: "Offer with  upto discount",
-      generatedTitle: "Offer is generated",
-      generatedDescription:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-  ];
-}
