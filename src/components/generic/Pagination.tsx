@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import LimitSelect from "./generic/LimitSelect";
-import Table from "./Table";
+import LimitSelect from "./LimitSelect";
+import Table from "../Table";
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,

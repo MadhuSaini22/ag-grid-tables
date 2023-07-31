@@ -2,25 +2,38 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import React, { useMemo, useRef } from "react";
-import MoodEditor from "./MoodEditor";
-import DateRef from "./DateRef";
+import MultiSelect from "./generic/MultiSelect";
+import DateRef from "./generic/DateRef";
 import CustomTooltip from "./generic/CustomTooltip";
-import { ColDef, ISetFilterParams } from "ag-grid-community";
+import { ColDef } from "ag-grid-community";
+import DatePicker from "./generic/DatePicker";
 
 const categoryEditorSelector = (params: any) => {
   if (params.data) {
     return {
-      component: MoodEditor,
+      component: MultiSelect,
       popup: true,
       popupPosition: "under",
     };
   }
   return undefined;
 };
-const dateEditorSelector = (params: any) => {
+
+const dateTimeEditorSelector = (params: any) => {
   if (params.data) {
     return {
       component: DateRef,
+      popup: true,
+      popupPosition: "under",
+    };
+  }
+  return undefined;
+};
+
+const dateEditorSelector = (params: any) => {
+  if (params.data) {
+    return {
+      component: DatePicker,
       popup: true,
       popupPosition: "under",
     };
@@ -67,12 +80,10 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
       headerName: "Expire Date",
       field: "expireDate",
       editable: true,
-      filterParams: {
-        showTooltips: true,
-      } as ISetFilterParams,
       sortable: true,
+      width: 220,
       filter: true,
-      cellEditorSelector: dateEditorSelector,
+      cellEditorSelector: dateTimeEditorSelector,
     },
     {
       headerName: "OfferPage Redirect Link",
@@ -204,6 +215,7 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
       filter: true,
       width: 150,
       editable: true,
+      cellEditorSelector: dateEditorSelector,
     },
     {
       headerName: "Start Date",
@@ -212,6 +224,7 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
       filter: true,
       editable: true,
       width: 150,
+      cellEditorSelector: dateEditorSelector,
     },
     {
       headerName: "OfferPage Link",

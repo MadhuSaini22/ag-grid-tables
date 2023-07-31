@@ -7,18 +7,11 @@ interface Option {
   label: string;
 }
 
-interface Props {
-  data: {
-    category: string;
-  };
-}
-
-export default forwardRef(({ data }: Props, ref) => {
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>(stringToArray(data.category));
-
+export default forwardRef((props: any, ref) => {
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>(stringToArray(props?.value));
   function stringToArray(str: string): Option[] {
-    const values = str.split(",").map((item) => item.trim());
-    const resultArray = values.map((value) => ({
+    const values = str?.split(",").map((item) => item.trim());
+    const resultArray = values?.map((value) => ({
       value,
       label: value.charAt(0).toUpperCase() + value.slice(1),
     }));
@@ -27,7 +20,7 @@ export default forwardRef(({ data }: Props, ref) => {
 
   function removeDuplicates(arr: Option[]): Option[] {
     const uniqueValues = new Set<string>();
-    return arr.filter((item) => {
+    return arr?.filter((item) => {
       const key = `${item.value}:${item.label}`.toLowerCase();
       if (!uniqueValues.has(key)) {
         uniqueValues.add(key);
