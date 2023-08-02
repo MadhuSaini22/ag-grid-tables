@@ -97,6 +97,7 @@ export default function Table() {
     let nodesToUpdate = gridRef.current!.api.getSelectedNodes();
     if (nodesToUpdate.length > 0) {
       setSelectedRows(nodesToUpdate);
+      console.log({ selectedRows });
       const selectedIds = nodesToUpdate.map((node: any) => node.data.id).join(",");
 
       alert(`You selected ${selectedIds}`);
@@ -131,6 +132,7 @@ export default function Table() {
           tooltipShowDelay={0}
           sideBar={true}
           rowSelection={"multiple"}
+          suppressRowClickSelection={true}
           tooltipHideDelay={2000}
           components={{ imageCellRenderer: ImageCellRenderer }}
         />

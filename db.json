@@ -30,7 +30,7 @@
     },
     {
       "id": 2,
-      "offerTitle": "Alice",
+      "offerTitle": "Krishna",
       "offerDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       "couponCode": "COUPON",
       "expireDate": "07/31/2023, 05:23 PM",
@@ -338,7 +338,7 @@
     },
     {
       "id": 13,
-      "offerTitle": "sdf",
+      "offerTitle": "Krishna",
       "offerDescription": "test",
       "couponCode": "COUPON",
       "expireDate": "07/11/2023, 12:00 AM",
