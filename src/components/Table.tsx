@@ -6,6 +6,7 @@ import CustomTooltip from "./generic/CustomTooltip";
 import { ColDef } from "ag-grid-community";
 import LimitSelect from "./generic/LimitSelect";
 import { columnDefs, fetchData } from "./utils";
+import "ag-grid-enterprise";
 import { baseUrl } from "../../config";
 
 const truncateCellRenderer: React.FC<any> = ({ value }) => (
@@ -15,6 +16,7 @@ const truncateCellRenderer: React.FC<any> = ({ value }) => (
 export default function Table() {
   const gridRef = useRef(null);
   const [rowData, setRowData] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     fetchData()
@@ -24,12 +26,23 @@ export default function Table() {
       });
   }, []);
 
+  useEffect(() => {
+    fetchData(searchValue)
+      .then((data) => setRowData(data))
+      .catch((error) => {
+        console.log({ error });
+      });
+  }, [searchValue]);
+
+  const handleGlobalSearch = useCallback((event: any) => {
+    setSearchValue(event.target.value);
+  }, []);
+
   const defaultColDef = useMemo<ColDef>(() => {
     return {
       editable: true,
       sortable: true,
       minWidth: 100,
-
       filter: true,
       resizable: true,
       tooltipComponent: CustomTooltip,
@@ -59,7 +72,7 @@ export default function Table() {
           return response.json();
         })
         .then(() => {
-          fetchData().then((data) => setRowData(data));
+          fetchData(searchValue).then((data) => setRowData(data));
         })
         .catch((error) => {
           console.error("Error updating user:", error);
@@ -80,7 +93,16 @@ export default function Table() {
 
   return (
     <div>
-      <LimitSelect onChange={onPageSizeChanged} />
+      <div className="flex items-center justify-start mb-4 space-x-12">
+        <LimitSelect onChange={onPageSizeChanged} />
+        <input
+          type="text"
+          placeholder="Search by Offer title..."
+          value={searchValue}
+          onChange={handleGlobalSearch}
+          className="outline-none border border-gray-400 rounded p-1"
+        />
+      </div>
       <div className="ag-theme-alpine" style={{ width: "100vw", height: "900px", fontSize: "17px" }}>
         <AgGridReact
           ref={gridRef}
@@ -92,6 +114,7 @@ export default function Table() {
           pagination={true}
           paginationPageSize={10}
           tooltipShowDelay={0}
+          sideBar={true}
           tooltipHideDelay={2000}
           components={{ imageCellRenderer: ImageCellRenderer }}
         />

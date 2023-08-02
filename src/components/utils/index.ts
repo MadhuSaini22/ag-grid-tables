@@ -1,4 +1,5 @@
 import { baseUrl } from "../../../config";
+import ActionButtons from "../generic/ActionButtons";
 import DatePicker from "../generic/DatePicker";
 import DateTimePicker from "../generic/DateTimePicker";
 import Dropdown from "../generic/Dropdown";
@@ -49,6 +50,14 @@ const dropdownSelector = (params: any) => {
 
 export const columnDefs: any = [
   { headerName: "ID", field: "id", sortable: true, filter: true, width: 90 },
+  {
+    headerName: "Action",
+    field: "action",
+    sortable: false,
+    filter: false,
+    cellRenderer: ActionButtons,
+    editable: false,
+  },
   {
     headerName: "Offer Title",
     field: "offerTitle",
@@ -199,6 +208,9 @@ export const columnDefs: any = [
     filter: true,
     editable: true,
     width: 170,
+    cellClass: (params: any) => {
+      return params.value === 7 ? "bg-green-300" : "bg-transparent";
+    },
   },
   {
     headerName: "Expiry Date",
@@ -254,10 +266,13 @@ export const columnDefs: any = [
   },
 ];
 
-export const fetchData = async () => {
+export const fetchData = async (searchValue = "") => {
   try {
     const response = await fetch(`${baseUrl}`);
     const data = await response.json();
+    if (searchValue) {
+      return data.filter((item: any) => item.offerTitle.toLowerCase().includes(searchValue.toLowerCase()));
+    }
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
