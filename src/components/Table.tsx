@@ -1,269 +1,28 @@
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import React, { useMemo, useRef } from "react";
-import MultiSelect from "./generic/MultiSelect";
-import DateRef from "./generic/DateRef";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CustomTooltip from "./generic/CustomTooltip";
 import { ColDef } from "ag-grid-community";
-import DatePicker from "./generic/DatePicker";
-import Dropdown from "./generic/Dropdown";
-
-const categoryEditorSelector = (params: any) => {
-  if (params.data) {
-    return {
-      component: MultiSelect,
-      popup: true,
-      popupPosition: "under",
-    };
-  }
-  return undefined;
-};
-
-const dateTimeEditorSelector = (params: any) => {
-  if (params.data) {
-    return {
-      component: DateRef,
-      popup: true,
-      popupPosition: "under",
-    };
-  }
-  return undefined;
-};
-
-const dateEditorSelector = (params: any) => {
-  if (params.data) {
-    return {
-      component: DatePicker,
-      popup: true,
-      popupPosition: "under",
-    };
-  }
-  return undefined;
-};
-const dropdownSelector = (params: any) => {
-  if (params.data) {
-    return {
-      component: Dropdown,
-      popup: true,
-      popupPosition: "under",
-    };
-  }
-  return undefined;
-};
+import LimitSelect from "./generic/LimitSelect";
+import { columnDefs, fetchData } from "./utils";
+import { baseUrl } from "../../config";
 
 const truncateCellRenderer: React.FC<any> = ({ value }) => (
   <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
 );
-export default function Table({ rowData, setData, currentPage, limit }: any) {
-  const gridRef = useRef(null);
 
-  const columnDefs: any = [
-    { headerName: "ID", field: "id", sortable: true, filter: true, width: 90 },
-    {
-      headerName: "Offer Title",
-      field: "offerTitle",
-      sortable: true,
-      filter: true,
-      editable: true,
-      tooltipField: "offerTitle",
-    },
-    {
-      headerName: "Offer Description",
-      field: "offerDescription",
-      sortable: true,
-      filter: true,
-      editable: true,
-      filterParams: {
-        showTooltips: true,
-      },
-      width: 320,
-      tooltipField: "offerDescription",
-    },
-    {
-      headerName: "Coupon Code",
-      field: "couponCode",
-      sortable: true,
-      filter: true,
-      editable: true,
-    },
-    {
-      headerName: "Expire Date",
-      field: "expireDate",
-      editable: true,
-      sortable: true,
-      width: 220,
-      filter: true,
-      cellEditorSelector: dateTimeEditorSelector,
-    },
-    {
-      headerName: "OfferPage Redirect Link",
-      field: "offerPageRedirectLink",
-      sortable: true,
-      filter: true,
-      editable: true,
-      width: 260,
-    },
-    {
-      headerName: "Discount",
-      field: "discount",
-      sortable: true,
-      filter: true,
-      editable: true,
-    },
-    {
-      headerName: "Applicable On",
-      field: "applicableOn",
-      sortable: true,
-      filter: true,
-      editable: true,
-    },
-    {
-      headerName: "Not Applicable On",
-      field: "notApplicableOn",
-      sortable: true,
-      filter: true,
-      editable: true,
-    },
-    {
-      headerName: "User Type",
-      field: "userType",
-      sortable: true,
-      filter: true,
-      editable: true,
-      width: 140,
-      cellEditorSelector: dropdownSelector,
-    },
-    {
-      headerName: "Discount Type",
-      field: "DiscountType",
-      sortable: true,
-      filter: true,
-      width: 180,
-      editable: true,
-      cellEditorSelector: dropdownSelector,
-    },
-    {
-      headerName: "Min Purchase Amt",
-      field: "minimumPurchaseAmount",
-      sortable: true,
-      filter: true,
-      width: 200,
-      editable: true,
-    },
-    {
-      headerName: "Payment Mode",
-      field: "paymentMode",
-      sortable: true,
-      editable: true,
-      filter: true,
-      width: 180,
-    },
-    {
-      headerName: "Max Discount",
-      field: "maximumDiscount",
-      sortable: true,
-      filter: true,
-      editable: true,
-    },
-    {
-      headerName: "Extra Terms",
-      field: "extraTerms",
-      sortable: true,
-      filter: true,
-      editable: true,
-      cellEditor: "agLargeTextCellEditor",
-      cellEditorPopup: true,
-      minWidth: 310,
-    },
-    {
-      headerName: "Categories",
-      field: "categories",
-      sortable: true,
-      filter: true,
-      editable: true,
-      width: 300,
-      cellEditorSelector: categoryEditorSelector,
-    },
-    {
-      headerName: "Tags",
-      field: "tags",
-      sortable: true,
-      filter: true,
-      editable: true,
-      width: 300,
-      cellEditorSelector: categoryEditorSelector,
-    },
-    {
-      headerName: "Brands",
-      field: "brands",
-      sortable: true,
-      filter: true,
-      editable: true,
-      width: 300,
-      cellEditorSelector: categoryEditorSelector,
-    },
-    {
-      headerName: "No Of Brands",
-      field: "noOfBrands",
-      sortable: true,
-      filter: true,
-      editable: true,
-      width: 170,
-    },
-    {
-      headerName: "Expiry Date",
-      field: "expiryDate",
-      sortable: true,
-      filter: true,
-      width: 150,
-      editable: true,
-      cellEditorSelector: dateEditorSelector,
-    },
-    {
-      headerName: "Start Date",
-      field: "startDate",
-      sortable: true,
-      filter: true,
-      editable: true,
-      width: 150,
-      cellEditorSelector: dateEditorSelector,
-    },
-    {
-      headerName: "OfferPage Link",
-      field: "offerPageLink",
-      sortable: true,
-      filter: true,
-      editable: true,
-    },
-    {
-      headerName: "Plain Link",
-      field: "plainLink",
-      sortable: true,
-      filter: true,
-      editable: true,
-    },
-    {
-      headerName: "Fragment Template",
-      field: "fragmentTemplate",
-      sortable: true,
-      filter: true,
-      width: 350,
-    },
-    {
-      headerName: "Generated Title",
-      field: "generatedTitle",
-      sortable: true,
-      filter: true,
-    },
-    {
-      headerName: "Generated Description",
-      field: "generatedDescription",
-      sortable: true,
-      filter: true,
-      width: 350,
-    },
-  ];
+export default function Table() {
+  const gridRef = useRef(null);
+  const [rowData, setRowData] = useState([]);
+
+  useEffect(() => {
+    fetchData()
+      .then((data) => setRowData(data))
+      .catch((error) => {
+        console.log({ error });
+      });
+  }, []);
 
   const defaultColDef = useMemo<ColDef>(() => {
     return {
@@ -278,17 +37,6 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
     };
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/data?_page=${currentPage}&_limit=${limit}`);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      throw new Error("Failed to fetch data");
-    }
-  };
-
   const onCellEditingStopped = (params: any) => {
     const { data, column, newValue } = params;
     const updatedData = rowData.map((row: any) =>
@@ -297,7 +45,7 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
 
     const updatedUser = updatedData.find((user: any) => user.id === data.id);
     if (updatedUser) {
-      fetch(`http://localhost:3000/data/${data.id}`, {
+      fetch(`${baseUrl}/${data.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -311,7 +59,7 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
           return response.json();
         })
         .then(() => {
-          fetchData().then((data) => setData(data));
+          fetchData().then((data) => setRowData(data));
         })
         .catch((error) => {
           console.error("Error updating user:", error);
@@ -323,9 +71,17 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
   const ImageCellRenderer: React.FC<{ value: string }> = ({ value }) => {
     return <img src={value} alt="Profile" width="35" height="35" />;
   };
+
+  const onPageSizeChanged = useCallback(() => {
+    var value = (document.getElementById("page-size") as HTMLInputElement).value;
+    //@ts-ignore
+    gridRef.current!.api.paginationSetPageSize(Number(value));
+  }, []);
+
   return (
     <div>
-      <div className="ag-theme-alpine" style={{ width: "100vw", height: "1000px", fontSize: "17px" }}>
+      <LimitSelect onChange={onPageSizeChanged} />
+      <div className="ag-theme-alpine" style={{ width: "100vw", height: "900px", fontSize: "17px" }}>
         <AgGridReact
           ref={gridRef}
           defaultColDef={defaultColDef}
@@ -333,6 +89,8 @@ export default function Table({ rowData, setData, currentPage, limit }: any) {
           columnDefs={columnDefs}
           onCellEditingStopped={onCellEditingStopped}
           rowHeight={75}
+          pagination={true}
+          paginationPageSize={10}
           tooltipShowDelay={0}
           tooltipHideDelay={2000}
           components={{ imageCellRenderer: ImageCellRenderer }}
