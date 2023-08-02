@@ -1,9 +1,9 @@
-import { baseUrl } from "../../../config";
-import ActionButtons from "../generic/ActionButtons";
-import DatePicker from "../generic/DatePicker";
-import DateTimePicker from "../generic/DateTimePicker";
-import Dropdown from "../generic/Dropdown";
-import MultiSelect from "../generic/MultiSelect";
+import { baseUrl, mainURL, token } from "../config";
+import ActionButtons from "../src/components/generic/ActionButtons";
+import DatePicker from "../src/components/generic/DatePicker";
+import DateTimePicker from "../src/components/generic/DateTimePicker";
+import Dropdown from "../src/components/generic/Dropdown";
+import MultiSelect from "../src/components/generic/MultiSelect";
 
 const categoryEditorSelector = (params: any) => {
   if (params.data) {
@@ -276,7 +276,13 @@ export const columnDefs: any = [
 
 export const fetchData = async (searchValue = "") => {
   try {
-    const response = await fetch(`${baseUrl}`);
+    const response = await fetch(`${mainURL}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await response.json();
     if (searchValue) {
       return data.filter((item: any) => item.offerTitle.toLowerCase().includes(searchValue.toLowerCase()));

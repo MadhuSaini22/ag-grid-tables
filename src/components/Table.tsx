@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import CustomTooltip from "./generic/CustomTooltip";
 import { ColDef } from "ag-grid-community";
 import LimitSelect from "./generic/LimitSelect";
-import { columnDefs, fetchData } from "./utils";
+import { columnDefs, fetchData } from "../../utils";
 import "ag-grid-enterprise";
 import { baseUrl } from "../../config";
 
