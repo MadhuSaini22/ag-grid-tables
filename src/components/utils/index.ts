@@ -49,7 +49,15 @@ const dropdownSelector = (params: any) => {
 };
 
 export const columnDefs: any = [
-  { headerName: "ID", field: "id", sortable: true, filter: true, width: 90 },
+  {
+    headerName: "ID",
+    field: "id",
+    sortable: true,
+    filter: true,
+    width: 90,
+    headerCheckboxSelection: true,
+    checkboxSelection: true,
+  },
   {
     headerName: "Action",
     field: "action",

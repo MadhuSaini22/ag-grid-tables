@@ -17,6 +17,7 @@ export default function Table() {
   const gridRef = useRef(null);
   const [rowData, setRowData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
     fetchData()
@@ -91,6 +92,17 @@ export default function Table() {
     gridRef.current!.api.paginationSetPageSize(Number(value));
   }, []);
 
+  const updateSelectedRows = useCallback(() => {
+    //@ts-ignore
+    let nodesToUpdate = gridRef.current!.api.getSelectedNodes();
+    if (nodesToUpdate.length > 0) {
+      setSelectedRows(nodesToUpdate);
+      const selectedIds = nodesToUpdate.map((node: any) => node.data.id).join(",");
+
+      alert(`You selected ${selectedIds}`);
+    }
+  }, []);
+
   return (
     <div>
       <div className="flex items-center justify-start mb-4 space-x-12">
@@ -102,6 +114,9 @@ export default function Table() {
           onChange={handleGlobalSearch}
           className="outline-none border border-gray-400 rounded p-1"
         />
+        <div style={{ marginBottom: "5px" }}>
+          <button onClick={updateSelectedRows}>Update Selected Rows</button>
+        </div>
       </div>
       <div className="ag-theme-alpine" style={{ width: "100vw", height: "900px", fontSize: "17px" }}>
         <AgGridReact
@@ -115,6 +130,7 @@ export default function Table() {
           paginationPageSize={10}
           tooltipShowDelay={0}
           sideBar={true}
+          rowSelection={"multiple"}
           tooltipHideDelay={2000}
           components={{ imageCellRenderer: ImageCellRenderer }}
         />
