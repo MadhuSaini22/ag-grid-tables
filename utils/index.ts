@@ -274,7 +274,11 @@ export const columnDefs: any = [
   },
 ];
 
-export const fetchData = async (searchValue = "") => {
+export const fetchData = async (
+  url,
+  method = "GET",
+  headers = { "Content-type": "application/json" }
+) => {
   try {
     const response = await fetch(`${mainURL}`, {
       method: "GET",
@@ -284,9 +288,7 @@ export const fetchData = async (searchValue = "") => {
       },
     });
     const data = await response.json();
-    if (searchValue) {
-      return data.filter((item: any) => item.offerTitle.toLowerCase().includes(searchValue.toLowerCase()));
-    }
+
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
