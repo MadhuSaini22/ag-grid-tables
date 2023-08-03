@@ -99,23 +99,27 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
 
       alert(`You selected ${selectedIds}`);
     }
-  }, []);
+  }, [gridRef]);
+
   return (
     <div>
-      <div className="flex items-center justify-start mb-4 space-x-12">
+      <div className="flex items-center justify-start mb-4 flex-col sm:flex-row space-x-12 space-y-4 sm:space-y-0">
         <LimitSelect onChange={onPageSizeChanged} />
-        <input
-          type="text"
-          placeholder="Search by Offer title..."
-          value={searchValue}
-          onChange={handleGlobalSearch}
-          className="outline-none border border-gray-400 rounded p-1"
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Search by Offer title..."
+            value={searchValue}
+            onChange={handleGlobalSearch}
+            className="outline-none border border-gray-400 rounded p-1"
+          />
+        </div>
+
         <div style={{ marginBottom: "5px" }}>
           <button onClick={updateSelectedRows}>Update Selected Rows</button>
         </div>
       </div>
-      <div className="ag-theme-alpine" style={{ width: "100vw", height: "900px", fontSize: "17px" }}>
+      <div className="ag-theme-alpine" style={{ width: "98vw", height: "84vh", fontSize: "17px" }}>
         <AgGridReact
           ref={gridRef}
           defaultColDef={defaultColDef}

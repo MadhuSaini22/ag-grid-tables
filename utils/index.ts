@@ -1,4 +1,5 @@
 import ActionButtons from "../src/components/generic/ActionButtons";
+import DatePicker from "../src/components/generic/DatePicker";
 // import DatePicker from "../src/components/generic/DatePicker";
 import DateTimeCreatedAt from "../src/components/generic/DateTimeCreatedAt";
 import DateTimePicker from "../src/components/generic/DateTimePicker";
@@ -59,16 +60,16 @@ const dateTimeCreatedEditorSelector = (params: any) => {
   }
   return undefined;
 };
-// const dateEditorSelector = (params: any) => {
-//   if (params.data) {
-//     return {
-//       component: DatePicker,
-//       popup: true,
-//       popupPosition: "under",
-//     };
-//   }
-//   return undefined;
-// };
+const dateEditorSelector = (params: any) => {
+  if (params.data) {
+    return {
+      component: DatePicker,
+      popup: true,
+      popupPosition: "under",
+    };
+  }
+  return undefined;
+};
 const dropdownSelector = (params: any) => {
   if (params.data) {
     return {
@@ -130,7 +131,8 @@ export const columnDefs: any = [
     sortable: true,
     width: 220,
     filter: true,
-    cellEditorSelector: dateTimeEditorSelector,
+    // cellEditorSelector: dateTimeEditorSelector,
+    cellEditorSelector: dateEditorSelector,
   },
   {
     headerName: "Discount",
