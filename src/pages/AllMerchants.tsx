@@ -3,7 +3,7 @@ import FullScreenLoader from "../components/core/loaders/FullScreen";
 import { Link } from "react-router-dom";
 import { useMerchants } from "../hooks/use-Merchants";
 
-export default function MerchantsView() {
+export default function AllMerchants() {
   const [merchantsData, setMerchantsData] = useState([]);
   const [loader, setLoader] = useState(true);
   const { getMerchantData } = useMerchants();
