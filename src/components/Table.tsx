@@ -7,29 +7,27 @@ import { ColDef } from "ag-grid-community";
 import LimitSelect from "./generic/LimitSelect";
 import { columnDefs, fetchData } from "../../utils";
 import "ag-grid-enterprise";
-import { baseUrl } from "../../config";
+import { baseUrl, merchantBaseURL, token } from "../../config";
 
 const truncateCellRenderer: React.FC<any> = ({ value }) => (
   <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
 );
 
-export default function Table() {
+const headers = {
+  "Content-type": "application/json",
+  Authorization: `Bearer ${token}`,
+};
+
+export default function Table({ rowData, setRowData, merchantId }: any) {
   const gridRef = useRef(null);
-  const [rowData, setRowData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
-    fetchData()
-      .then((data) => setRowData(data))
-      .catch((error) => {
-        console.log({ error });
-      });
-  }, []);
-
-  useEffect(() => {
-    fetchData(searchValue)
-      .then((data) => setRowData(data))
+    fetchData(`${merchantBaseURL}${merchantId}`, "GET", headers, searchValue)
+      .then((data) => {
+        searchValue ? setRowData(data) : setRowData(data.data);
+      })
       .catch((error) => {
         console.log({ error });
       });
@@ -73,7 +71,7 @@ export default function Table() {
           return response.json();
         })
         .then(() => {
-          fetchData(searchValue).then((data) => setRowData(data));
+          fetchData(`${merchantBaseURL}${merchantId}`, "GET", headers, searchValue).then((data) => setRowData(data));
         })
         .catch((error) => {
           console.error("Error updating user:", error);
@@ -97,13 +95,11 @@ export default function Table() {
     let nodesToUpdate = gridRef.current!.api.getSelectedNodes();
     if (nodesToUpdate.length > 0) {
       setSelectedRows(nodesToUpdate);
-      console.log({ selectedRows });
       const selectedIds = nodesToUpdate.map((node: any) => node.data.id).join(",");
 
       alert(`You selected ${selectedIds}`);
     }
   }, []);
-
   return (
     <div>
       <div className="flex items-center justify-start mb-4 space-x-12">

@@ -33,7 +33,6 @@ const parseDate = (inputString: any) => {
 const DateTimePicker = forwardRef((props, ref) => {
   //@ts-ignore
   const [selectedDateTime, setSelectedDateTime] = useState(parseDate(props?.data?.date || new Date()));
-
   const handleDateTimeChange = (momentObj: any) => {
     setSelectedDateTime(momentObj.toDate());
   };
