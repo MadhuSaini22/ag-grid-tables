@@ -2,12 +2,12 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import CustomTooltip from "./CustomTooltip";
 import { ColDef } from "ag-grid-community";
-import LimitSelect from "./LimitSelect";
-import { columnDefs } from "../../utils";
 import "ag-grid-enterprise";
-import { useCoupons } from "../../hooks/use-Coupons";
+import { useCoupons } from "../../../hooks/use-Coupons";
+import CustomTooltip from "../CustomTooltip";
+import LimitSelect from "../LimitSelect";
+import { columnDefs } from "./config";
 
 const truncateCellRenderer: React.FC<any> = ({ value }) => (
   <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
@@ -89,9 +89,9 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
 
     const updatedUser = updatedData.find((user: any) => user.id === data.id);
     if (updatedUser) {
-      const response = updateCoupon(data.id, updatedUser);
-      console.log(response);
-      await getCoupons();
+      // const response = updateCoupon(data.id, updatedUser);
+      // console.log(response);
+      // await getCoupons();
 
       // fetch(`${baseUrl}/${data.id}`, {
       //   method: "PUT",
@@ -128,7 +128,7 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
 
   const updateSelectedRows = useCallback(() => {
     //@ts-ignore
-    let nodesToUpdate = gridRef.current!.api.getSelectedNodes();
+    const nodesToUpdate = gridRef.current!.api.getSelectedNodes();
     if (nodesToUpdate.length > 0) {
       setSelectedRows(nodesToUpdate);
       const selectedIds = nodesToUpdate.map((node: any) => node.data.id).join(",");

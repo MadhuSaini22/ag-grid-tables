@@ -1,17 +1,8 @@
 import React from "react";
 import { ICellRendererParams } from "ag-grid-community";
+import { config } from "../../config";
 
-const actionButtons = {
-  not_published: ["Publish", "Trash"],
-  rejected: ["Restore ", "Trash "],
-  active: ["Trash"],
-  expired: ["Trash"],
-  stale: ["Trash"],
-  trashed: ["Restore"],
-  missing: ["Trash"],
-  publish: ["Trash"],
-  "not expiry": ["Trash"],
-};
+
 
 export default ({ data }: ICellRendererParams) => {
   return (
@@ -19,7 +10,7 @@ export default ({ data }: ICellRendererParams) => {
       {data &&
         data.editor_status &&
         //@ts-ignore
-        actionButtons[`${data.editor_status}`].map((button: any, index: any) => {
+        config.actionButtons[`${data.editor_status}`].map((button: any, index: any) => {
           return (
             <button
               type="button"

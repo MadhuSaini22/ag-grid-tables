@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import FullScreenLoader from "../components/core/loaders/FullScreen";
 import { useParams } from "react-router-dom";
-import Table from "../components/generic/Table";
 import { useCoupons } from "../hooks/use-Coupons";
+import Table from "../components/generic/table";
 
 export default function Merchant() {
   const [merchantsData, setMerchantsData] = useState([]);
