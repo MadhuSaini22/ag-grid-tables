@@ -1,11 +1,11 @@
-import ActionButtons from "../src/components/generic/ActionButtons";
-import DatePicker from "../src/components/generic/DatePicker";
-import DateTimeCreatedAt from "../src/components/generic/DateTimeCreatedAt";
-import DateTimePicker from "../src/components/generic/DateTimePicker";
-import Dropdown from "../src/components/generic/Dropdown";
-import MultiSelectBrands from "../src/components/generic/MultiSelectBrands";
-import MultiSelectCategory from "../src/components/generic/MultiSelectCategory";
-import MultiSelectTags from "../src/components/generic/MultiSelectTags";
+import ActionButtons from "../components/generic/ActionButtons";
+import DatePicker from "../components/generic/DatePicker";
+import DateTimeCreatedAt from "../components/generic/DateTimeCreatedAt";
+import DateTimePicker from "../components/generic/DateTimePicker";
+import Dropdown from "../components/generic/Dropdown";
+import MultiSelectBrands from "../components/generic/MultiSelectBrands";
+import MultiSelectCategory from "../components/generic/MultiSelectCategory";
+import MultiSelectTags from "../components/generic/MultiSelectTags";
 
 const BrandsEditorSelector = (params: any) => {
   if (params.data) {

@@ -5,18 +5,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import CustomTooltip from "./CustomTooltip";
 import { ColDef } from "ag-grid-community";
 import LimitSelect from "./LimitSelect";
-import { columnDefs, fetchData } from "../../../utils";
+import { columnDefs } from "../../utils";
 import "ag-grid-enterprise";
-import { baseUrl, merchantBaseURL, token } from "../../../config";
+import { useCoupons } from "../../hooks/use-Coupons";
 
 const truncateCellRenderer: React.FC<any> = ({ value }) => (
   <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
 );
-
-const headers = {
-  "Content-type": "application/json",
-  Authorization: `Bearer ${token}`,
-};
 
 export default function Table({ rowData, setRowData, merchantId }: any) {
   const gridRef = useRef(null);
@@ -24,16 +19,35 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
   const [selectedRows, setSelectedRows] = useState([]);
   // State to store the grid API reference
   const [gridApi, setGridApi] = useState(null);
+  const { getCouponData, updateCoupon } = useCoupons();
+
+  const getCoupons = async () => {
+    const data: any = await getCouponData(merchantId);
+    if (data) setRowData(data.data);
+  };
 
   useEffect(() => {
-    fetchData(`${merchantBaseURL}${merchantId}`, "GET", headers, searchValue)
-      .then((data) => {
-        searchValue ? setRowData(data) : setRowData(data.data);
-      })
-      .catch((error) => {
-        console.log({ error });
-      });
+    searchHandler(searchValue);
   }, [searchValue]);
+
+  const searchHandler = (searchValue: any) => {
+    setRowData(
+      rowData.filter((item: any) => {
+        return item.discount.toLowerCase().includes(searchValue.toLowerCase());
+      })
+    );
+  };
+
+  // useEffect(() => {
+  //   fetchData(`${merchantBaseURL}${merchantId}`, "GET", headers, searchValue)
+  //     .then((data) => {
+  //       console.log({ data });
+  //       searchValue ? setRowData(data) : setRowData(data.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log({ error });
+  //     });
+  // }, [searchValue]);
 
   const handleGlobalSearch = useCallback((event: any) => {
     setSearchValue(event.target.value);
@@ -67,7 +81,7 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
     };
   }, []);
 
-  const onCellEditingStopped = (params: any) => {
+  const onCellEditingStopped = async (params: any) => {
     const { data, column, newValue } = params;
     const updatedData = rowData.map((row: any) =>
       row.id === data.id ? { ...row, [column.getColId()]: newValue } : row
@@ -75,26 +89,30 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
 
     const updatedUser = updatedData.find((user: any) => user.id === data.id);
     if (updatedUser) {
-      fetch(`${baseUrl}/${data.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUser),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update user");
-          }
-          return response.json();
-        })
-        .then(() => {
-          fetchData(`${merchantBaseURL}${merchantId}`, "GET", headers, searchValue).then((data) => setRowData(data));
-        })
-        .catch((error) => {
-          console.error("Error updating user:", error);
-          // Handle error if needed and show an appropriate message to the user
-        });
+      const response = updateCoupon(data.id, updatedUser);
+      console.log(response);
+      await getCoupons();
+
+      // fetch(`${baseUrl}/${data.id}`, {
+      //   method: "PUT",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(updatedUser),
+      // })
+      //   .then((response) => {
+      //     if (!response.ok) {
+      //       throw new Error("Failed to update user");
+      //     }
+      //     return response.json();
+      //   })
+      //   .then(async () => {
+      //     await getCoupons();
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error updating user:", error);
+      //     // Handle error if needed and show an appropriate message to the user
+      //   });
     }
   };
 
@@ -153,7 +171,7 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
           rowSelection={"multiple"}
           suppressRowClickSelection={true}
           tooltipHideDelay={2000}
-          onGridReady={(params: any) => setGridApi(params.api)}
+          // onGridReady={(params: any) => setGridApi(params.api)}
           components={{ imageCellRenderer: ImageCellRenderer }}
         />
       </div>

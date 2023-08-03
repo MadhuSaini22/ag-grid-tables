@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { fetchData } from "../../../utils";
-import { mainURL, token } from "../../../config";
-import FullScreenLoader from "../core/loaders/FullScreen";
+import FullScreenLoader from "../components/core/loaders/FullScreen";
 import { Link } from "react-router-dom";
+import { useMerchants } from "../hooks/use-Merchants";
 
 export default function MerchantsView() {
   const [merchantsData, setMerchantsData] = useState([]);
   const [loader, setLoader] = useState(true);
+  const { getMerchantData } = useMerchants();
 
   useEffect(() => {
-    setLoader(true);
     getMerchants();
     return () => {};
   }, []);
 
-  const getMerchants = () => {
-    const headers = {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    fetchData(mainURL, "GET", headers)
-      .then((data) => {
-        data?.data && setMerchantsData(data.data);
-        setLoader(false);
-      })
-      .catch((error) => {
-        console.log({ error });
-      });
+  const getMerchants = async () => {
+    const data: any = await getMerchantData();
+    if (data) setMerchantsData(data.data);
+    setLoader(false);
   };
 
   if (loader) return <FullScreenLoader className={"flex h-screen w-screen justify-center items-center text-red-300"} />;
