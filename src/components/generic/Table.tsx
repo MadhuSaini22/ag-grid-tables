@@ -2,12 +2,12 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import CustomTooltip from "./generic/CustomTooltip";
+import CustomTooltip from "./CustomTooltip";
 import { ColDef } from "ag-grid-community";
-import LimitSelect from "./generic/LimitSelect";
-import { columnDefs, fetchData } from "../../utils";
+import LimitSelect from "./LimitSelect";
+import { columnDefs, fetchData } from "../../../utils";
 import "ag-grid-enterprise";
-import { baseUrl, merchantBaseURL, token } from "../../config";
+import { baseUrl, merchantBaseURL, token } from "../../../config";
 
 const truncateCellRenderer: React.FC<any> = ({ value }) => (
   <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
@@ -22,6 +22,8 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
   const gridRef = useRef(null);
   const [searchValue, setSearchValue] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
+  // State to store the grid API reference
+  const [gridApi, setGridApi] = useState(null);
 
   useEffect(() => {
     fetchData(`${merchantBaseURL}${merchantId}`, "GET", headers, searchValue)
@@ -36,6 +38,22 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
   const handleGlobalSearch = useCallback((event: any) => {
     setSearchValue(event.target.value);
   }, []);
+
+  // Apply default filter on Age column (age = 30)
+  useEffect(() => {
+    if (gridApi) {
+      //@ts-ignore
+      const filterInstance = gridApi.getFilterInstance("editor_status");
+      if (filterInstance) {
+        filterInstance.setModel({
+          type: "equals",
+          filter: "not_published", // Default filter value
+        });
+        //@ts-ignore
+        gridApi.onFilterChanged();
+      }
+    }
+  }, [gridApi]);
 
   const defaultColDef = useMemo<ColDef>(() => {
     return {
@@ -128,12 +146,14 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
           onCellEditingStopped={onCellEditingStopped}
           rowHeight={75}
           pagination={true}
-          paginationPageSize={10}
+          paginationPageSize={8}
           tooltipShowDelay={0}
+          animateRows={true}
           sideBar={true}
           rowSelection={"multiple"}
           suppressRowClickSelection={true}
           tooltipHideDelay={2000}
+          onGridReady={(params: any) => setGridApi(params.api)}
           components={{ imageCellRenderer: ImageCellRenderer }}
         />
       </div>

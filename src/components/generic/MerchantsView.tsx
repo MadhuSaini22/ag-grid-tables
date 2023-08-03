@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { fetchData } from "../../utils";
-import { mainURL, token } from "../../config";
-import FullScreenLoader from "./core/loaders/FullScreen";
+import { fetchData } from "../../../utils";
+import { mainURL, token } from "../../../config";
+import FullScreenLoader from "../core/loaders/FullScreen";
 import { Link } from "react-router-dom";
 
 export default function MerchantsView() {

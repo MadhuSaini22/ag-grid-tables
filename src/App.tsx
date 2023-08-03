@@ -1,8 +1,8 @@
 import * as React from "react";
 import "./App.css";
-import MerchantsView from "./components/MerchantsView";
+import MerchantsView from "./components/generic/MerchantsView";
 import { Routes, Route } from "react-router-dom";
-import UserDetails from "./components/Merchant";
+import UserDetails from "./components/generic/Merchant";
 function App() {
   return (
     <div>

@@ -14,11 +14,13 @@ const actionButtons = {
 };
 
 export default ({ data }: ICellRendererParams) => {
+  console.log({ first: actionButtons[`publish`] });
   return (
     <div className="custom-element space-x-3">
       {data &&
-        data.status &&
-        actionButtons[`publish`].map((button, index) => {
+        data.editor_status &&
+        //@ts-ignore
+        actionButtons[`${data.editor_status}`].map((button: any, index: any) => {
           return (
             <button
               type="button"

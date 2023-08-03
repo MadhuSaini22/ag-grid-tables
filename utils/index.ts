@@ -318,7 +318,7 @@ export const columnDefs: any = [
     headerName: "Editor status",
     field: "editor_status",
     sortable: true,
-    filter: true,
+    filter: "agTextColumnFilter",
     editable: true,
   },
   {

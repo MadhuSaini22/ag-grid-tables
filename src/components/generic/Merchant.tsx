@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { fetchData } from "../../utils";
-import { merchantBaseURL, token } from "../../config";
-import FullScreenLoader from "./core/loaders/FullScreen";
+import { fetchData } from "../../../utils";
+import { merchantBaseURL, token } from "../../../config";
+import FullScreenLoader from "../core/loaders/FullScreen";
 import { useParams } from "react-router-dom";
 import Table from "./Table";
 
