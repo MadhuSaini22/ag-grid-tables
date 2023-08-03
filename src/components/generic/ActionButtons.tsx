@@ -14,7 +14,6 @@ const actionButtons = {
 };
 
 export default ({ data }: ICellRendererParams) => {
-  console.log({ first: actionButtons[`publish`] });
   return (
     <div className="custom-element space-x-3">
       {data &&

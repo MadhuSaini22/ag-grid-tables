@@ -146,7 +146,7 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
           onCellEditingStopped={onCellEditingStopped}
           rowHeight={75}
           pagination={true}
-          paginationPageSize={8}
+          paginationPageSize={10}
           tooltipShowDelay={0}
           animateRows={true}
           sideBar={true}
