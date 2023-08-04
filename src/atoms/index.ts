@@ -1,6 +1,6 @@
-import { atom } from "recoil";
+import { atomFamily } from "recoil";
 
-export const isEditing = atom({
-  key: "isEditing",
-  default: true as boolean,
+export const arrayAtomFamily = atomFamily({
+  key: "arrayAtomFamily",
+  default: [],
 });

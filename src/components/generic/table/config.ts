@@ -2,7 +2,7 @@ import Dropdown from "./tableItems/Dropdown";
 import DateTimePicker from "./tableItems/DateTimePicker";
 import MultiSelectDropdown from "./tableItems/MultiSelectDropdown";
 import ActionButtons from "../ActionButtons";
-import AttachBrand from "./tableItems/AttachBrand";
+import RefragmentCoupon from "./tableItems/RefragmentCoupon";
 
 const MultiSelectEditor = (params: any, columnId: string) => {
   if (params.data) {
@@ -58,15 +58,25 @@ export const columnDefs: any = [
     editable: false,
   },
   {
-    headerName: "Attach Brand",
-    field: "attach_brand",
+    headerName: "ReFragment Coupon",
+    field: "refragment_coupon",
     sortable: false,
     filter: false,
     editable: true,
-    cellRenderer: AttachBrand,
+    cellRenderer: RefragmentCoupon,
     width: 260,
     // cellEditorSelector: (params: any) => attachBrandEditorSelector(params, "checked_at"),
   },
+  // {
+  //   headerName: "Attach Brand",
+  //   field: "attach_brand",
+  //   sortable: false,
+  //   filter: false,
+  //   editable: true,
+  //   cellRenderer: AttachBrand,
+  //   width: 260,
+  //   // cellEditorSelector: (params: any) => attachBrandEditorSelector(params, "checked_at"),
+  // },
   {
     headerName: "Coupon Code",
     field: "coupon_code",

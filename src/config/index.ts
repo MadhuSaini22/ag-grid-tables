@@ -3,6 +3,8 @@ export const config = {
   merchants_endpoint: "/merchants",
   coupons_endpoint: "/coupons",
   coupons_update_endpoint: "/coupon/update",
+  fragments_endpoint: "/fragments",
+  refragment_coupon_endpoint: "/coupon/reFragment",
   token: "adsi9209-c8ae-4ffer5-bfsf6c-c4c11fafer",
   limitOptions: [
     { label: "10", value: 10 },
