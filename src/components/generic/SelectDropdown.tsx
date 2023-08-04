@@ -17,7 +17,7 @@ export default function SelectDropdown({ label, options, onChange, id }: any) {
         onChange={onChange}
       >
         {options.map((option: any) => (
-          <option key={option} value={option.value}>
+          <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}

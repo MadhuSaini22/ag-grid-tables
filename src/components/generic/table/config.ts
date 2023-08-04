@@ -2,6 +2,7 @@ import Dropdown from "./tableItems/Dropdown";
 import DateTimePicker from "./tableItems/DateTimePicker";
 import MultiSelectDropdown from "./tableItems/MultiSelectDropdown";
 import ActionButtons from "../ActionButtons";
+import AttachBrand from "./tableItems/AttachBrand";
 
 const MultiSelectEditor = (params: any, columnId: string) => {
   if (params.data) {
@@ -61,8 +62,10 @@ export const columnDefs: any = [
     field: "attach_brand",
     sortable: false,
     filter: false,
-    cellRenderer: ActionButtons,
-    editable: false,
+    editable: true,
+    cellRenderer: AttachBrand,
+    width: 260,
+    // cellEditorSelector: (params: any) => attachBrandEditorSelector(params, "checked_at"),
   },
   {
     headerName: "Coupon Code",
