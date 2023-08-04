@@ -6,8 +6,9 @@ import { ColDef } from "ag-grid-community";
 import "ag-grid-enterprise";
 import { useCoupons } from "../../../hooks/use-Coupons";
 import CustomTooltip from "../CustomTooltip";
-import LimitSelect from "../LimitSelect";
 import { columnDefs } from "./config";
+import SelectDropdown from "../SelectDropdown";
+import { config } from "../../../config";
 
 const truncateCellRenderer: React.FC<any> = ({ value }) => (
   <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
@@ -92,7 +93,6 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
       // const response = updateCoupon(data.id, updatedUser);
       // console.log(response);
       // await getCoupons();
-
       // fetch(`${baseUrl}/${data.id}`, {
       //   method: "PUT",
       //   headers: {
@@ -140,7 +140,7 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
   return (
     <div>
       <div className="flex items-center justify-start mb-4 flex-col sm:flex-row space-x-12 space-y-4 sm:space-y-0">
-        <LimitSelect onChange={onPageSizeChanged} />
+        <SelectDropdown label="" options={config.limitOptions} onChange={onPageSizeChanged} id="page-size" />
         <div>
           <input
             type="text"
