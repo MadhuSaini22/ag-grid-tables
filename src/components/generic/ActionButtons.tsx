@@ -2,10 +2,12 @@ import React from "react";
 import { ICellRendererParams } from "ag-grid-community";
 import { config } from "../../config";
 import PrimaryButton from "../core/PrimaryButton";
+import { useCoupons } from "../../hooks/use-Coupons";
 
 export default ({ data }: ICellRendererParams) => {
+  const { updateCoupon } = useCoupons();
   return (
-    <div className="custom-element space-x-3">
+    <div className="custom-element flex  space-x-3">
       {data &&
         data.editor_status &&
         //@ts-ignore
@@ -14,8 +16,11 @@ export default ({ data }: ICellRendererParams) => {
             <PrimaryButton
               label={button}
               key={button}
-              onClick={() => {
-                alert(`You clicked ${data.id}`);
+              onClick={async () => {
+                const editedButton = button?.toLowerCase();
+                //@ts-ignore
+                const body = config.actionButtonsBody[data.editor_status][editedButton];
+                const response = await updateCoupon(data.id, body);
               }}
             />
           );

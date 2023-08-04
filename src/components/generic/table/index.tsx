@@ -34,27 +34,15 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
   const searchHandler = (searchValue: any) => {
     setRowData(
       rowData.filter((item: any) => {
-        return item.discount.toLowerCase().includes(searchValue.toLowerCase());
+        return item.discount?.toLowerCase()?.includes(searchValue?.toLowerCase());
       })
     );
   };
-
-  // useEffect(() => {
-  //   fetchData(`${merchantBaseURL}${merchantId}`, "GET", headers, searchValue)
-  //     .then((data) => {
-  //       console.log({ data });
-  //       searchValue ? setRowData(data) : setRowData(data.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log({ error });
-  //     });
-  // }, [searchValue]);
 
   const handleGlobalSearch = useCallback((event: any) => {
     setSearchValue(event.target.value);
   }, []);
 
-  // Apply default filter on Age column (age = 30)
   useEffect(() => {
     if (gridApi) {
       //@ts-ignore
@@ -90,29 +78,8 @@ export default function Table({ rowData, setRowData, merchantId }: any) {
 
     const updatedUser = updatedData.find((user: any) => user.id === data.id);
     if (updatedUser) {
-      // const response = updateCoupon(data.id, updatedUser);
-      // console.log(response);
-      // await getCoupons();
-      // fetch(`${baseUrl}/${data.id}`, {
-      //   method: "PUT",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(updatedUser),
-      // })
-      //   .then((response) => {
-      //     if (!response.ok) {
-      //       throw new Error("Failed to update user");
-      //     }
-      //     return response.json();
-      //   })
-      //   .then(async () => {
-      //     await getCoupons();
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error updating user:", error);
-      //     // Handle error if needed and show an appropriate message to the user
-      //   });
+      const response = updateCoupon(data.id, updatedUser);
+      await getCoupons();
     }
   };
 

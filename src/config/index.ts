@@ -5,6 +5,7 @@ export const config = {
   coupons_update_endpoint: "/coupon/update",
   fragments_endpoint: "/fragments",
   brands_endpoint: "/brands",
+  merchant_info_endpoint: "/merchant/info",
   refragment_coupon_endpoint: "/coupon/reFragment",
   token: "adsi9209-c8ae-4ffer5-bfsf6c-c4c11fafer",
   limitOptions: [
@@ -30,4 +31,48 @@ export const config = {
     { label: "New", value: "new" },
     { label: "Existing", value: "existing" },
   ],
+  actionButtonsBody: {
+    not_published: {
+      publish: {
+        status: "publish",
+        published_at: Date.now(),
+      },
+      trash: {
+        status: "trash",
+      },
+    },
+    rejected: {
+      restore: {
+        status: "draft",
+      },
+      trash: {
+        status: "trash",
+      },
+    },
+    active: {
+      trash: {
+        status: "trash",
+      },
+    },
+    expired: {
+      trash: {
+        status: "trash",
+      },
+    },
+    stale: {
+      trash: {
+        status: "trash",
+      },
+    },
+    trashed: {
+      restore: {
+        status: "draft",
+      },
+    },
+    missing: {
+      trash: {
+        status: "trash",
+      },
+    },
+  },
 };

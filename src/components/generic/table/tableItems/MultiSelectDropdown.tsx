@@ -22,7 +22,7 @@ export default forwardRef((props: any, ref) => {
   function removeDuplicates(arr: Option[]): Option[] {
     const uniqueValues = new Set<string>();
     return arr?.filter((item) => {
-      const key = `${item.value}:${item.label}`.toLowerCase();
+      const key = `${item.value}:${item.label}`?.toLowerCase();
       if (!uniqueValues.has(key)) {
         uniqueValues.add(key);
         return true;
@@ -53,8 +53,7 @@ export default forwardRef((props: any, ref) => {
     { value: "1002", label: "1002" },
     { value: "1003", label: "1003" },
     { value: "1004", label: "1004" },
-  ]
-
+  ];
 
   const brandsOptions: Option[] = [
     { value: "apple", label: "Apple" },
@@ -62,7 +61,7 @@ export default forwardRef((props: any, ref) => {
     { value: "orange", label: "Orange" },
     { value: "grape", label: "Grape" },
     { value: "strawberry", label: "Strawberry" },
-  ]
+  ];
 
   const tagsOptions: Option[] = [
     { value: "11003", label: "11003" },
@@ -79,15 +78,16 @@ export default forwardRef((props: any, ref) => {
     { value: "15009", label: "15009" },
     { value: "15000", label: "15000" },
     { value: "11006", label: "11006" },
-  ]
+  ];
 
-  const options = columnId === "categories"
-  ? categoryOptions
-  : columnId === "tags"
-  ? tagsOptions
-  : columnId === "brands"
-  ? brandsOptions
-  : [];
+  const options =
+    columnId === "categories"
+      ? categoryOptions
+      : columnId === "tags"
+      ? tagsOptions
+      : columnId === "brands"
+      ? brandsOptions
+      : [];
   return (
     <div className="mood" tabIndex={1}>
       <Select isMulti options={options} value={selectedOptions} closeMenuOnSelect={false} onChange={handleChange} />

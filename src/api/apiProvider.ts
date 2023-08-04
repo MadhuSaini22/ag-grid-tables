@@ -8,6 +8,7 @@ export const api = {
           "Content-type": "application/json",
           Authorization: `Bearer ${config.token}`,
         },
+        credentials: "include",
         method: "GET",
       })
         .then((res) => {
@@ -22,12 +23,13 @@ export const api = {
         .catch((err) => reject(err));
     });
   },
+
   post: function (url: string, body: any) {
     return new Promise(async (resolve, reject) => {
       fetch(url, {
         headers: {
           "Content-type": "application/json",
-          Authentication: `Bearer ${config.token}`,
+          Authorization: `Bearer ${config.token}`,
         },
         method: "POST",
         body: JSON.stringify(body),
