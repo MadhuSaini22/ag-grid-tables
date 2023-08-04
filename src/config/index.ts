@@ -4,6 +4,7 @@ export const config = {
   coupons_endpoint: "/coupons",
   coupons_update_endpoint: "/coupon/update",
   fragments_endpoint: "/fragments",
+  brands_endpoint: "/brands",
   refragment_coupon_endpoint: "/coupon/reFragment",
   token: "adsi9209-c8ae-4ffer5-bfsf6c-c4c11fafer",
   limitOptions: [

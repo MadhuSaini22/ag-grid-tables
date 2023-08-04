@@ -6,11 +6,13 @@ import { convertFragmentDataIntoOptions } from "../utils";
 
 export function useCoupons() {
   const setFragments = useSetRecoilState(arrayAtomFamily("allFragmentData"));
+  const setBrands = useSetRecoilState(arrayAtomFamily("allBrands"));
 
   const getCouponData = (id: any) => {
     return new Promise((resolve) => {
       api.get(config.local_url + config.coupons_endpoint + "/" + id).then((res: any) => {
         getAllFragments();
+        getAllBrands();
         resolve(res);
       });
     });
@@ -18,7 +20,7 @@ export function useCoupons() {
 
   const updateCoupon = (id: any, data: any) => {
     return new Promise((resolve) => {
-      api.post(config.local_url + config.coupons_endpoint + "/" + id, data).then((res: any) => {
+      api.post(config.local_url + config.coupons_update_endpoint + "/" + id, data).then((res: any) => {
         resolve(res);
       });
     });
@@ -29,6 +31,14 @@ export function useCoupons() {
       api.get(config.local_url + config.fragments_endpoint).then((res: any) => {
         const convertedData: any = convertFragmentDataIntoOptions(res.data);
         setFragments(convertedData);
+        resolve(res.data);
+      });
+    });
+  };
+  const getAllBrands = () => {
+    return new Promise((resolve) => {
+      api.get(config.local_url + config.brands_endpoint).then((res: any) => {
+        setBrands(res.data);
         resolve(res.data);
       });
     });
@@ -45,6 +55,7 @@ export function useCoupons() {
     getCouponData,
     updateCoupon,
     getAllFragments,
+    getAllBrands,
     refragmentCoupon,
   };
 }

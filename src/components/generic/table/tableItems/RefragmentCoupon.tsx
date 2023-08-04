@@ -1,7 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { arrayAtomFamily } from "../../../../atoms";
-import { useCoupons } from "../../../../hooks/use-Coupons";
 import FormModal, { FormModalRefType } from "../../../core/modals/FormModal";
 import PrimaryButton from "../../../core/PrimaryButton";
 import FragmentForm from "../../FragmentForm";
